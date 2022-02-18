@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Components;
-using TT.ConfTool.Client.Models;
 using TT.ConfTool.Client.Services;
 
-namespace TT.ConfTool.Client.Pages
+namespace TT.ConfTool.Client.Conferences
 {
     public partial class ConferenceDetails
     {
@@ -17,7 +16,7 @@ namespace TT.ConfTool.Client.Pages
         private ConferencesClientService _conferencesClient { get; set; } = default!;
 
         [Inject]
-        private CountriesClientService _countriesClient { get; set; } = default!;
+        private CountriesService _countriesClient { get; set; } = default!;
 
         [Inject]
         private NavigationManager _navigationManager { get; set; } = default!;
@@ -25,7 +24,7 @@ namespace TT.ConfTool.Client.Pages
         [Inject]
         private IDialogService _dialog { get; set; } = default!;
 
-        private bool _isShow { get; set; }
+        private bool _isShow;
         private ConfTool.Shared.DTO.ConferenceDetails _conferenceDetails = new ConfTool.Shared.DTO.ConferenceDetails();
         private List<string> _countries;
 
@@ -49,7 +48,15 @@ namespace TT.ConfTool.Client.Pages
             {
                 _countries = await _countriesClient.ListCountriesAsync();
             }
+        }
 
+        private async Task<IEnumerable<string>> SearchCountry(string value)
+        {
+            // if text is null or empty, show complete list
+            if (string.IsNullOrEmpty(value))
+                return _countries;
+
+            return _countries.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
         }
 
         private async Task SaveConference()
@@ -60,17 +67,17 @@ namespace TT.ConfTool.Client.Pages
                 return;
             }
 
-             if (Mode == ConferenceDetailsModes.New)
+            if (Mode == ConferenceDetailsModes.New)
             {
                 await _conferencesClient.AddConferenceAsync(_conferenceDetails);
                 Console.WriteLine("NEW Conference added...");
             }
-            _navigationManager.NavigateTo("/");
+            _navigationManager.NavigateTo("/conferences");
         }
 
         private void Cancel()
         {
-            _navigationManager.NavigateTo("/");
+            _navigationManager.NavigateTo("/conferences");
         }
 
     }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using TT.ConfTool.Client;
+using TT.ConfTool.Client.Conferences;
 using TT.ConfTool.Client.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -10,8 +11,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
 
+// TODO: Replace with config
 builder.Services.AddHttpClient("WebAPI",
-        client => client.BaseAddress = new Uri("https://localhost:7156/"))
+        client => client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("BaseUrl")))
     .AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
@@ -19,7 +21,7 @@ builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
 
 
 builder.Services.AddScoped<ConferencesClientService>();
-builder.Services.AddScoped<CountriesClientService>();
+builder.Services.AddScoped<CountriesService>();
 builder.Services.AddSingleton<IDialogService, DialogService>();
 
 builder.Services.AddOidcAuthentication(options =>

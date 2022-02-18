@@ -40,6 +40,10 @@ h1:focus {
     width: 100%;
 }
 
+.mud-navmenu.mud-navmenu-default .mud-nav-link.active:not(.mud-nav-link-disabled) {
+    color: white !important;
+}
+
 /*App loading spinner*/
 .spinner {
     margin: 100px auto;

@@ -83,10 +83,10 @@ namespace TT.ConfTool.Api.Controllers
             var conf = _mapper.Map<Models.Conference>(conference);
             conf.DateCreated = DateTime.UtcNow;
 
-            _conferencesDbContext.Conferences.Add(conf);
+            var entry = _conferencesDbContext.Conferences.Add(conf);
             await _conferencesDbContext.SaveChangesAsync();
 
-            await _hubContext.Clients.All.SendAsync("NewConferenceAdded");
+            await _hubContext.Clients.All.SendAsync("NewConferenceAdded", entry.Entity.ID);
 
             return CreatedAtAction("Get", new { id = conference.ID }, _mapper.Map<ConferenceDetails>(conf));
         }

@@ -2,12 +2,11 @@
 
 namespace TT.ConfTool.Client.Services
 {
-    public class CountriesClientService
+    public class CountriesService
     {
         private HttpClient _httpClient;
-        private string _baseApiUrl;
 
-        public CountriesClientService(HttpClient httpClient)
+        public CountriesService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }

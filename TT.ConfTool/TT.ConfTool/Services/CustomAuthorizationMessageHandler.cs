@@ -5,12 +5,14 @@ namespace TT.ConfTool.Client.Services
 {
     public class CustomAuthorizationMessageHandler : AuthorizationMessageHandler
     {
-        public CustomAuthorizationMessageHandler(IAccessTokenProvider provider,
-            NavigationManager navigationManager)
+        public CustomAuthorizationMessageHandler(IAccessTokenProvider provider
+            , IConfiguration configuration
+            , NavigationManager navigationManager)
             : base(provider, navigationManager)
         {
+            var baseUrl = configuration.GetValue<string>("BaseUrl");
             ConfigureHandler(
-                authorizedUrls: new[] { "https://localhost:7156" },
+                authorizedUrls: new[] { baseUrl },
                 scopes: new[] { "api" });
         }
     }

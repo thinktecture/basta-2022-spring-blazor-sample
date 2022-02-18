@@ -4,6 +4,7 @@ namespace TT.ConfTool.Client.Shared
 {
     public partial class MainLayout
     {
+        private bool _showDrawer = false;
         private static readonly MudTheme DefaultTheme = new()
         {
             Palette = new Palette
@@ -18,5 +19,10 @@ namespace TT.ConfTool.Client.Shared
                 Secondary = "#3d6fb4"
             }
         };
+
+        private void ToggleDrawer()
+        {
+            _showDrawer = !_showDrawer;
+        }
     }
 }

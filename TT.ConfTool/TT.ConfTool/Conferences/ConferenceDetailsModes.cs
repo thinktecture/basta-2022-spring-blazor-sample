@@ -1,4 +1,4 @@
-﻿namespace TT.ConfTool.Client.Models
+﻿namespace TT.ConfTool.Client.Conferences
 {
     public class ConferenceDetailsModes
     {

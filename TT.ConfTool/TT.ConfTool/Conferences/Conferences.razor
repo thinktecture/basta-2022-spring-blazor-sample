@@ -1,0 +1,42 @@
+﻿@page "/conferences"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+
+<PageTitle>Conferences</PageTitle>
+
+<MudText Typo="Typo.h4" Class="py-8" Color="Color.Secondary">Conferences</MudText>
+
+@if (_conferences == null)
+{
+    <MudSkeleton></MudSkeleton>
+}
+else
+{
+    <MudSimpleTable Style="overflow-x: auto;">
+         <colgroup>
+           <col span="1" style="width: 85%;">
+           <col span="1" style="width: 15%; text-align: right;">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th style="text-align: right">
+                    <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="() => LoadDetails(ConferenceDetailsModes.New)"></MudIconButton>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <Virtualize Items="_conferences" Context="conf">
+                <tr id="@conf.ID" class="@(_newId == conf.ID ? "highlight" : "")">
+                    <td>@conf.Title</td>
+                    <td style="text-align: right"> 
+                        <MudIconButton Icon="@Icons.Material.Filled.RemoveRedEye" OnClick="() => LoadDetails(ConferenceDetailsModes.Show, conf.ID)"></MudIconButton>
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="() => LoadDetails(ConferenceDetailsModes.Edit, conf.ID)"></MudIconButton>
+                    </td>
+                </tr>
+            </Virtualize>
+        </tbody>
+    </MudSimpleTable>
+}
+
+

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace TT.ConfTool.Client.Components
+namespace TT.ConfTool.Client.Conferences
 {
     public partial class ConferenceDetailsHeader
     {

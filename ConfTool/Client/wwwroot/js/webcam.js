@@ -1,7 +1,10 @@
 ﻿// Based on https://github.com/mdn/samples-server/blob/master/s/webrtc-capturestill/capture.js
 
+var interopJS = interopJS || {}
+
 let video = null;
 let canvas = null;
+let context = null;
 let photo = null;
 let streaming = false;
 

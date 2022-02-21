@@ -1,0 +1,25 @@
+﻿@page "/conferences"
+@attribute [Authorize]
+
+@if (_conferences == null)
+{
+    <p>Fetching conferences found</p>
+}
+else
+{
+    <MudButton OnClick="AddConference">Add Conference</MudButton>
+    <MudSimpleTable>
+        <thead>
+            <tr>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <Virtualize Items="_conferences" Context="conf">
+                <tr @onclick="() => LoadDetails(conf.ID)">
+                    <td>@conf.Title</td>
+                </tr>
+            </Virtualize>
+        </tbody>
+    </MudSimpleTable>
+}

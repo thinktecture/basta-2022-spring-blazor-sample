@@ -16,7 +16,7 @@ else
         </thead>
         <tbody>
             <Virtualize Items="_conferences" Context="conf">
-                <tr @onclick="() => LoadDetails(conf.ID)">
+                <tr @onclick="() => LoadDetails(conf.ID)" style="@(_newItemId == conf.ID ? "background-color: #3d6fb4; color: white;" : "")">
                     <td>@conf.Title</td>
                 </tr>
             </Virtualize>

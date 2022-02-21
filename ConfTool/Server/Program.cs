@@ -1,3 +1,4 @@
+using ConfTool.Server.GrpcServices;
 using ConfTool.Server.Hubs;
 using ConfTool.Server.Models;
 using ConfTool.Server.Utils;
@@ -6,6 +7,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using ProtoBuf.Grpc.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,9 @@ builder.Services.AddMvc().AddFluentValidation(fv =>
 
 builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
+builder.Services.AddGrpc();
+builder.Services.AddCodeFirstGrpc(config => { config.ResponseCompressionLevel = System.IO.Compression.CompressionLevel.Optimal; });
+builder.Services.AddCodeFirstGrpcReflection();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -73,17 +78,16 @@ app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
+app.UseRouting();
 
 app.UseGrpcWeb();
 
 app.UseAuthentication();
-
-app.UseRouting();
-
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
+    endpoints.MapGrpcService<ConferencesServiceCodeFirst>().EnableGrpcWeb();
     endpoints.MapHub<ConferencesHub>("/conferencesHub");
     endpoints.MapRazorPages();
     endpoints.MapControllers();

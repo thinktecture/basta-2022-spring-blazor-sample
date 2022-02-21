@@ -68,6 +68,7 @@ else
     app.UseHsts();
 }
 
+app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Conferences API V1");
